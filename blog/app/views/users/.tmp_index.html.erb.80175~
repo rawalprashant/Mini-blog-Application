@@ -1,0 +1,83 @@
+<head>
+	<%= stylesheet_link_tag 'scaffold' %>
+	
+	<!-- Include File for javascript Functionality -->
+	<%= javascript_include_tag 'prototype' %>
+	<%= javascript_include_tag 'effects' %>
+	<%= javascript_include_tag 'scriptaculous' %>
+	
+	<!-- For Light Box -->
+	<%= javascript_include_tag 'jquery' %>
+	<%= javascript_include_tag 'jquery.lightbox-0.5' %>
+	
+	<%= stylesheet_link_tag 'jquery.lightbox-0.5' %>
+
+<script type="text/javascript">
+jQuery.noConflict();
+</script>
+</head>
+
+<body>
+	<p style="color: green"><%= notice %></p>
+<div>
+<table>
+<tr>
+<td>
+<!-- Sign in Form For User -->
+<a onclick="jQuery('a').click(function(){ jQuery('#loginform').lightBox(); });"><h1 style="color:#306EFF;">Sign In</h1></a>
+<div id="loginform">
+	<% form_for @user,:user,:url => { :controller => 'users', :action=>'authenticate' } do |f| %>
+  			<%= f.error_messages %>
+				<p>
+    				<%= f.label :user_name %><br />
+    				<%= f.text_field :user_name %>
+  				</p>
+  				<p>
+    				<%= f.label :password %><br />
+    				<%= f.password_field :password %>
+  				</p>
+				<p>
+    				<%= f.submit 'Login' %>
+  				</p>
+<% end %>
+</div>
+<h3 style="color:#CC0000;"><%= link_to ("NEW USER REGISTER HERE", new_user_path )%></h3>
+</td>
+</tr>
+
+<tr>
+<td>
+
+<!-- Listing All the Blogs from Database post..-->
+<div id="blog-list">
+	<center><h1>Listing Blogs</h1></center>
+
+<% @posts.each do |post| %>
+  	<div class="title">
+  		<!-- Post is related to user thats why getting user image using post_id -->
+		<%= image_tag(Post.find(post.id).user.user_image, :style => "padding-top:12px;", :size =>"47x47") %>
+  		
+		Title:<b><%=h link_to post.title, post_path(post) %></b>
+				<%= post.comments.count%> Comments
+				<!-- Getting User Name for post id -->
+				<b style="color:#FF00FF; text-align:right;">Posted By:</b><%= Post.find(post.id).user.user_name %> <b style="color:#008000;">At</b> <%= post.created_at.to_formatted_s(:long) %>
+	</div>
+	
+	<!-- you must have to two div tag for effect functionality and Generate dynamic id for div tag  -->
+    	<div id="<%= post.id %>" style="display:none;"><div style="color:#008000;"><%=h post.content %></div></div>
+		<a href="#" onclick="Effect.SlideDown('<%= post.id %>'); return false;">Read</a>
+		<a href="#" onclick="Effect.Fold('<%= post.id %>'); return false;">Close</a>
+<% end %>
+
+</div>
+<br/>
+
+</td>
+</tr>
+</table>
+</div>
+
+</body>
+
+
+

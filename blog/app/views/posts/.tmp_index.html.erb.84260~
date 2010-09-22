@@ -1,0 +1,72 @@
+<h2>Welcome, <strong style="color:#893BFF;"><%=session[:user_name]%></strong> </h2>
+<!-- Display Uploaded Image For Login USER -->
+<%= image_tag(@user.user_image ,:style => "padding-top:12px;", :size =>"75x75" ) %>
+
+<!-- Search Form -->
+<% form_tag('/posts', :method => :get) do %>
+ 	<p>Search Your Blogs:<%= text_field_tag "search_name" %>
+ 	<%= select_tag("search_type", options_for_select([['Title', 'title'],['UserName', 'username']], 'title')) %>
+ 	<%= submit_tag 'search' %></p>
+<% end %>
+
+<h2> <p align="right" style="font-size:medium;"><%= link_to("LogOut", :controller => 'users',:action => 'logout') %></p></h2>
+
+<!-- Getting Post List for Login User -->
+<div id="blog-list">
+	<center><h2>MY Blogs</h2></center>
+	<table>
+  <tr>
+    <th>PostName</th>
+    <th>Title</th>
+    <th>Content</th>
+	<th>Total Comments</th>
+	<th colspan="3">Operations</th>
+  </tr>
+	
+<!-- Getting Post List for Login User -->
+<% @user_posts.each do |post| %>
+  <tr valign ="top" class="<%= cycle('blog-line-odd', 'blog-line-even') %>">
+    <td><%=h post.name %></td>
+    <td><%=h post.title %></td>
+    <td><%=h post.content %></td>
+	<td><%=h post.comments.count %></td>
+	<td><%= link_to 'Show Comments', post_path(post) %></td>
+    <td><%= link_to 'Edit', edit_post_path(post) %></td>
+    <td><%= link_to 'Delete', post, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to 'New post', new_post_path %>
+
+</div>
+
+<!-- Getting List For Other User Posts -->
+<div id="blog-list">
+<center><h1>Other Blogs</h1></center>
+
+<table>
+  <tr>
+  	<th>User photo</th>
+    <th>Post Name</th>
+    <th>Title</th>
+    <th>Content</th>
+	<th>User Name</th>
+	<th>Total Comments</th>
+  </tr>
+
+<% unless @post.nil? %>
+	<% @post.each do |post| %>
+	  <tr valign ="top" class="<%= cycle('blog-line-odd', 'blog-line-even') %>">
+	  	<td><%=h image_tag( Post.find(post.id).user.user_image, :style => "padding-top:12px;", :size =>"75x75" ) %></td>
+	    <td><%=h post.name %></td>
+	    <td><%=h post.title %></td>
+	    <td><%=h post.content %></td>
+		<td><%=h Post.find(post.id).user.user_name %></td>
+		<td><%=h post.comments.count %></td>
+		<td><%= link_to 'Show Comments',post_path(post) %></td>
+	    </tr>
+	<% end %>
+<% end %>
+</table>
+</div>
+<br />

@@ -1,0 +1,54 @@
+<h1>User Login Form</h1>
+<body>
+<div>
+<% form_for(@user) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :user_name %><br />
+    <%= f.text_field :user_name %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.text_field :password %>
+  </p>
+  <p>
+    <%= f.submit 'Login' %>
+  </p>
+<% end %>
+</div>
+
+<div>
+<h1>User Sign Up Form</h1>
+			<% form_for(@user) do |f| %>
+  					<%= f.error_messages %>
+
+  				<p>
+    				<%= f.label :first_name %><br />
+    				<%= f.text_field :first_name %>
+  				</p>
+				<p>
+    				<%= f.label :last_name %><br />
+    				<%= f.text_field :last_name %>
+  				</p>
+				<p>
+    				<%= f.label :user_name %><br />
+    				<%= f.text_field :user_name %>
+  				</p>
+  				<p>
+    				<%= f.label :password %><br />
+    				<%= f.text_field :password %>
+  				</p>
+				<p>
+    				<%= f.label :mobile_no %><br />
+    				<%= f.text_area :mobile_no %>
+  				</p>
+				<p>
+    				<%= f.label :email %><br />
+    				<%= f.text_field :email %>
+  				</p>
+  				<p>
+    				<%= f.submit 'Create Account' %>
+  				</p>
+<% end %>
+</div>
+</body>

@@ -1,0 +1,83 @@
+<div style="background-color:#C7A317; color:#8AFB17;">
+<% if session[:user_id] %>
+	<h2>Welcome, <strong style="color:#893BFF;"><%= session[:user_name]%></strong> </h2>
+	<h2> <p align="right" style="font-size:medium;"><%= link_to("LogOut", :controller => 'users',:action => 'logout') %> <%= link_to 'Back to Posts', posts_path %></p></h2>
+<% else %>
+	<h2>Welcome, <strong style="color:#893BFF;">Guest!</strong> </h2>
+	<p align="right" style="font-size:medium;"><%= link_to 'Back to Posts', users_path %></p>
+<% end %>
+</div>
+
+<h2 style="color : #FF00FF;" ><u>POST</u></h2>
+<p>  <b>Name:</b>  
+		<%=h @post.name %> </p> 
+
+<p>  <b>Title:</b>  
+	 <%=h @post.title %> </p> 
+
+<p>  <b>Content:</b>  
+	<%=h @post.content %> </p>
+
+<p>  <b>Blog Owner:</b>  
+	<%=h @post.user.user_name %> <b style="background-color:#46C7C7;"><%= link_to 'Send Email',:controller => "emailer", :action => "sendmail", :post_id=> @post.id %></b></p>
+
+<!-- ************************************************************************************************************************************************ -->
+	
+<hr size="5" style="background-color:#000000;">
+<!-- if user's post he can't make comment just watch it... -->  
+<% if @post.user_id == session[:user_id]  %>
+
+<h2 style="color : 	#6C2DC7;">Comments</h2>
+<div id="comments">
+	<% @post.comments.each do |c| %>
+				<div id="lastcomment<%= c.id %>">
+					<p style="color:#0000FF;">  <b>Commenter:</b>  <%=h c.commenter %>  </p>  
+					<p style="color:#808000;">  <b>Comment:</b>  <%=h c.body %>  </p>
+					<!--Link if user is current_user -->
+				<% if c.user_id == session[:user_id] %>	
+					<%= link_to 'edit', edit_post_comment_path(@post,c) %>
+					<%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
+				<% end %>
+				</div>
+	<% end %>
+</div>
+
+<% else %>
+
+<h2 style="color : 	#6C2DC7;">Comments</h2>
+<div id="comments">
+	<% @post.comments.each do |c| %>
+		<% unless c.blank? %>
+			<% if @post.comments.last != c %>
+				<div id="lastcomment<%= c.id %>">
+					<p style="color:#0000FF;">  <b>Commenter:</b>  <%=h c.commenter %>  </p>  
+					<p style="color:#808000;">  <b>Comment:</b>  <%=h c.body %>  </p>
+					<!--Link if user is current_user -->
+				<% if c.user_id == session[:user_id] %>	
+					<%= link_to 'edit', edit_post_comment_path(@post,c) %>
+					<%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
+				<% end %>		
+				</div>					
+			<% end %>
+		<% end %>
+	<% end %>
+</div>
+
+<!-- Form For New Comment.. -->
+<hr style="background-color:#000000;" size="5">
+<div id="notlogin"></div>
+<h1>New comment</h1> 
+<% remote_form_for([@post, @comment]) do |f| %>  
+		<%= f.error_messages %>
+		
+		<p>  <%= f.label :commenter %><br />  
+			 <%= f.text_field :commenter %>  </p>  
+			 
+	    <p>  <%= f.label :body %><br />  
+			 <%= f.text_area :body %>  </p>  
+		
+		<p>  <%= f.submit "Create" %>  </p> 
+<% end %> 	
+
+<% end %><!-- End for if @post.user_id == session[:user_id]  -->
+

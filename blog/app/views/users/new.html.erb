@@ -1,0 +1,54 @@
+<head>
+	<%= stylesheet_link_tag 'scaffold' %>
+</head>
+<div>
+<center>
+<table>
+<tr>
+<td bgcolor="red"></td>
+
+<td align="right">
+<h1 style="color:#E4317F;">User Sign Up Form</h1>
+			
+			<% form_for(@user, :html => { :multipart => true }) do |f| %>
+  					<%= f.error_messages %>
+
+  				<p>
+    				<%= f.label :first_name %><br />
+    				<%= f.text_field :first_name %>
+				</p>
+				<p>
+    				<%= f.label :last_name %><br />
+    				<%= f.text_field :last_name %>
+  				</p>
+				<p>
+    				<%= f.label :user_name %><br />
+    				<%= f.text_field :user_name %>
+  				</p>
+  				<p>
+    				<%= f.label :password %><br />
+    				<%= f.password_field :password %>
+  				</p>
+				<p>
+    				<%= f.label :mobile_no %><br />
+    				<%= f.text_field :mobile_no, options={:size => "10",:maxlength => "10"} %>
+  				</p>
+				<p>
+    				<%= f.label :email %><br />
+    				<%= f.text_field :email %>
+  				</p>
+				<p>
+					<%= f.label :user_image %><br />
+    				<%= f.file_field :user_image %>
+				</p>
+  				<p>
+    				<%= f.submit 'Create Account' %>
+  				</p>
+<% end %>
+</td>
+</tr>
+</table>
+		<%= link_to("BACK TO LOGIN", users_path )%>
+</div>
+</center>
+</body>

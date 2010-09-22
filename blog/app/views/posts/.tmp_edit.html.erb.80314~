@@ -1,0 +1,6 @@
+<h1>Editing post</h1>
+
+<%= render :partial => "form"%>	<!-- rendering the _form.html.erb file  -->
+
+<%= link_to 'Show', @post %> |
+<%= link_to 'Back', posts_path %>

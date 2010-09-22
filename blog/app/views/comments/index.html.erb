@@ -1,0 +1,27 @@
+<div style="background-color:#C7A317;">
+<h2>Welcome, <strong style="color:#893BFF;"><%=session[:user_name]%></strong> </h2>
+<h2> <p align="right" style="font-size:medium;"><%= link_to("LogOut", :controller => 'users',:action => 'logout') %></p></h2>
+</div>
+
+<h1>Comments for Post Title :<h2 style="color:#800080;"><%= @post.title %></h2></h1> 
+
+<table>  
+		<tr>  
+			<th>Commenter</th>  
+			<th>Body</th>  
+		</tr> 
+		
+		<% for comment in @comments %>
+		<tr>  
+		      <td><%=h comment.commenter %></td>  
+			  <td><%=h comment.body %></td>
+			  
+			  <td><%= link_to 'Show', post_comment_path(@post, comment) %></td>  
+			  <td>  <%= link_to 'Edit', edit_post_comment_path(@post, comment) if comment.user == @current_user %> </td>  
+			  <td>  <%= link_to 'Destroy', post_comment_path(@post, comment),
+						:confirm => 'Are you sure?', :method => :delete if comment.user == @current_user %>  </td>  
+		</tr>
+		<% end %> 
+		
+</table> <br /> 
+<%= link_to 'Back to Post', @post %> 

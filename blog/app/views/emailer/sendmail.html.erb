@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Untitled Document</title>
+	</head>
+	<body>
+	  <fieldset>
+		<legend style="color:#666666; font-size:larger;">Send Email</legend>
+			<center>
+			<% form_tag :action => 'getmail' do %>
+				
+				<p><label for="email_subject">Subject</label>:
+				<%= text_field_tag 'subject' %></p>
+			
+				<p><label for="email_recipient">Recipient</label>:
+				<%= text_field_tag 'recipient' %></p>
+			
+				<p><label for="email_message">Message</label><br/>
+				<%= text_area_tag 'message', nil, :rows => 10, :cols => 25 %></p>
+				
+				<%= hidden_field_tag 'post_id', @post_id %>
+				
+				<%= submit_tag "Send" %>
+
+			<% end %>
+			</center>
+		</fieldset>
+	</body>
+</html>
